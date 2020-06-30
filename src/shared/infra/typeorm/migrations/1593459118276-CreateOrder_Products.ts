@@ -10,7 +10,7 @@ export default class CreateOrderProducts1593459118276
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'order_products',
+        name: 'orders_products',
         columns: [
           {
             name: 'id',
@@ -54,32 +54,31 @@ export default class CreateOrderProducts1593459118276
       }),
     );
     await queryRunner.createForeignKey(
-      'order_products',
+      'orders_products',
       new TableForeignKey({
         name: 'OrderId',
         columnNames: ['order_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'orders',
         onDelete: 'SET NULL',
-        onUpdate: 'CASCADE',
+
       }),
     );
     await queryRunner.createForeignKey(
-      'order_products',
+      'orders_products',
       new TableForeignKey({
         name: 'ProductId',
         columnNames: ['product_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'products',
         onDelete: 'SET NULL',
-        onUpdate: 'CASCADE',
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('orders', 'OrderId');
-    await queryRunner.dropForeignKey('orders', 'ProductId');
-    await queryRunner.dropTable('order_products');
+    await queryRunner.dropForeignKey('orders_products', 'OrderId');
+    await queryRunner.dropForeignKey('orders_products', 'ProductId');
+    await queryRunner.dropTable('orders_products');
   }
 }
