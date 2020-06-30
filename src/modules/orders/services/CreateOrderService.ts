@@ -32,15 +32,15 @@ class CreateProductService {
     const customerExists = await this.customersRepository.findById(customer_id);
 
     if (!customerExists) {
-      throw new AppError('Could not find any customer with the given id');
+      throw new AppError('not does exist customer');
     }
 
     const existentProducts = await this.productsRepository.findAllById(
       products,
     );
 
-    if (!existentProducts.length) {
-      throw new AppError('Could not find any products with the given ids');
+    if (!existentProducts) {
+      throw new AppError('not does exist products');
     }
 
     const formattedProducts = products.map(product => ({

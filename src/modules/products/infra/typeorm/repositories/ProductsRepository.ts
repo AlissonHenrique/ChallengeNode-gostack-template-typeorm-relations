@@ -59,6 +59,7 @@ class ProductsRepository implements IProductsRepository {
     products: IUpdateProductsQuantityDTO[],
   ): Promise<Product[]> {
     // TODO
+    return this.ormRepository.save(products);
   }
 }
 
