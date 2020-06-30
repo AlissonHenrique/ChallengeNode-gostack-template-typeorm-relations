@@ -44,9 +44,12 @@ class CreateProductService {
     const quantityBody = products.map(prod => prod.quantity);
     const quantitExist = productExists.map(product => product.quantity);
 
-    if (quantityBody > quantitExist) {
+    if (quantityBody[0] > quantitExist[0]) {
       throw new AppError('dont have quantity');
     }
+
+    const sub = quantitExist[0] - quantityBody[0];
+
 
     const format = products.map(product => ({
       product_id: product.id,
@@ -59,13 +62,13 @@ class CreateProductService {
       products: format,
     });
 
+    const update = products.map(product => ({
+      id: product.id,
+      quantity: sub,
+    }));
 
-
-
-
-
+    await this.productsRepository.updateQuantity(update);
     return order;
-
   }
 }
 
