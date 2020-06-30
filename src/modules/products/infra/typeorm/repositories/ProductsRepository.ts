@@ -46,7 +46,7 @@ class ProductsRepository implements IProductsRepository {
     // TODO
     const prod = products.map(product => product.id); // pega o  id no array
 
-    const findProduct = this.ormRepository.find({
+    const findProduct = await this.ormRepository.find({
       where: {
         id: In(prod),
       },

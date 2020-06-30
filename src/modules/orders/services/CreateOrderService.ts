@@ -35,26 +35,37 @@ class CreateProductService {
       throw new AppError('not does exist customer');
     }
 
-    const existentProducts = await this.productsRepository.findAllById(
-      products,
-    );
+    const productExists = await this.productsRepository.findAllById(products);
 
-    if (!existentProducts) {
+    if (!productExists.length) {
       throw new AppError('not does exist products');
     }
 
-    const formattedProducts = products.map(product => ({
+    const quantityBody = products.map(prod => prod.quantity);
+    const quantitExist = productExists.map(product => product.quantity);
+
+    if (quantityBody > quantitExist) {
+      throw new AppError('dont have quantity');
+    }
+
+    const format = products.map(product => ({
       product_id: product.id,
       quantity: product.quantity,
-      price: existentProducts.filter(p => p.id === product.id)[0].price,
+      price: productExists.filter(p => p.id === product.id)[0].price,
     }));
 
     const order = await this.ordersRepository.create({
       customer: customerExists,
-      products: formattedProducts,
+      products: format,
     });
 
+
+
+
+
+
     return order;
+
   }
 }
 
